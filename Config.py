@@ -11,7 +11,12 @@ if not DATABASE_URL:
     raise ValueError("❌ DATABASE_URL environment variable not found!")
 
 # ✅ Create engine and session
+# Ensure correct format for SQLAlchemy
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(DATABASE_URL, echo=True)
+
 Session = sessionmaker(bind=engine)
 
 # Upload folder setup (unchanged)
