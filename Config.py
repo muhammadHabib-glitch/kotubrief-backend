@@ -1,14 +1,16 @@
-
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import create_engine
 import os
 
 Base = declarative_base()
 
-# Get the database URL from Railway environment variable
-DATABASE_URL = os.getenv("postgresql://postgres:UlyEJIJgvjyhDGDpkXoPmoHSBMJdhixN@caboose.proxy.rlwy.net:54661/railway")
+# ✅ Get the database URL from Railway environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Create engine and session
+if not DATABASE_URL:
+    raise ValueError("❌ DATABASE_URL environment variable not found!")
+
+# ✅ Create engine and session
 engine = create_engine(DATABASE_URL, echo=True)
 Session = sessionmaker(bind=engine)
 
